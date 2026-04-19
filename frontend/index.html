@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Milk Distribution App</title>
+
+<link rel="manifest" href="pwa/manifest.json">
+<meta name="theme-color" content="#1976d2">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- NAVIGATION TABS -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="supplier-entry">Supplier Milk Entry</button>
+        <button class="tab-btn" data-tab="customer-entry">Customer Milk Entry</button>
+        <button class="tab-btn" data-tab="reports">Reports</button>
+        <button class="tab-btn" data-tab="dairy">Dairy</button>
+        <button class="tab-btn" data-tab="rates">Rates</button>
+        <button class="tab-btn" data-tab="suppliers">People & Payments</button>
+    </div>
+
+    <!-- ===== SUPPLIER MILK ENTRY TAB ===== -->
+    <div id="supplier-entry" class="tab-content active">
+        <h2>Supplier Milk Entry</h2>
+
+        <!-- DATE -->
+        <input id="supplierDate" type="date">
+
+        <!-- ID -->
+        <input id="supplierId" type="number" placeholder="Supplier ID">
+        <p id="supplierNameDisplay"></p>
+
+        <!-- INPUTS -->
+        <input id="supplierLitres" type="number" placeholder="Litres">
+        <input id="supplierFat" type="number" placeholder="Fat">
+
+        <!-- MILK TYPE -->
+        <div class="row">
+            <button id="supplierCowBtn" class="milk-btn active">Cow</button>
+            <button id="supplierBuffaloBtn" class="milk-btn">Buffalo</button>
+        </div>
+
+        <!-- SHIFT -->
+        <div class="row">
+            <button id="supplierAMBtn" class="shift-btn active">AM</button>
+            <button id="supplierPMBtn" class="shift-btn">PM</button>
+        </div>
+
+        <!-- AMOUNT -->
+        <h3 id="supplierAmount">Rs. 0</h3>
+
+        <!-- ACTIONS -->
+        <button id="supplierSaveBtn" class="save">SAVE</button>
+        <button id="supplierClearBtn" class="clear">CLEAR</button>
+
+        <p id="supplierStatus"></p>
+
+        <!-- ENTRIES -->
+        <h3>Today's Supplier Entries</h3>
+        <div id="supplierEntries"></div>
+    </div>
+
+    <!-- ===== CUSTOMER MILK ENTRY TAB ===== -->
+    <div id="customer-entry" class="tab-content">
+        <h2>Customer Milk Entry</h2>
+
+        <!-- DATE -->
+        <input id="customerDate" type="date">
+
+        <!-- ID -->
+        <input id="customerId" type="number" placeholder="Customer ID">
+        <p id="customerNameDisplay"></p>
+
+        <!-- INPUTS -->
+        <input id="customerLitres" type="number" placeholder="Litres">
+
+        <!-- MILK TYPE -->
+        <div class="row">
+            <button id="customerCowBtn" class="milk-btn active">Cow</button>
+            <button id="customerBuffaloBtn" class="milk-btn">Buffalo</button>
+        </div>
+
+        <!-- SHIFT -->
+        <div class="row">
+            <button id="customerAMBtn" class="shift-btn active">AM</button>
+            <button id="customerPMBtn" class="shift-btn">PM</button>
+        </div>
+
+        <!-- AMOUNT -->
+        <h3 id="customerAmount">Rs. 0</h3>
+
+        <!-- ACTIONS -->
+        <button id="customerSaveBtn" class="save">SAVE</button>
+        <button id="customerClearBtn" class="clear">CLEAR</button>
+
+        <p id="customerStatus"></p>
+
+        <!-- ENTRIES -->
+        <h3>Today's Customer Entries</h3>
+        <div id="customerEntries"></div>
+    </div>
+
+    <!-- ===== REPORTS TAB ===== -->
+    <div id="reports" class="tab-content">
+        <h2>Reports</h2>
+
+        <!-- REPORT CONTROLS -->
+        <div class="report-controls">
+            <div class="form-group">
+                <label>Date Range:</label>
+                <div class="date-range">
+                    <input type="date" id="startDate" placeholder="Start Date">
+                    <span>to</span>
+                    <input type="date" id="endDate" placeholder="End Date">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Report Type:</label>
+                <div class="row">
+                    <button id="supplierReportBtn" class="report-type-btn active">Suppliers</button>
+                    <button id="customerReportBtn" class="report-type-btn">Customers</button>
+                    <button id="dairyReportBtn" class="report-type-btn">Dairy</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Search:</label>
+                <input type="text" id="reportSearch" placeholder="Search by ID or Name">
+            </div>
+
+            <div class="report-actions">
+                <button id="reportBtn" class="save">Generate Report</button>
+                <button id="exportBtn" class="export">Export CSV</button>
+            </div>
+        </div>
+
+        <!-- REPORT RESULTS -->
+        <div id="reportResults">
+            <div id="reportSummary" class="report-summary"></div>
+            <div id="reportTable" class="report-table-container"></div>
+        </div>
+    </div>
+
+    <!-- ===== DAIRY TAB ===== -->
+    <div id="dairy" class="tab-content">
+        <h2>Dairy Entry</h2>
+
+        <!-- DAIRY FORM -->
+        <div class="dairy-form">
+            <div class="form-group">
+                <label>Date:</label>
+                <input id="dairyDate" type="date">
+            </div>
+
+            <div class="form-group">
+                <label>Shift:</label>
+                <div class="row">
+                    <button id="dairyAMBtn" class="shift-btn active">AM</button>
+                    <button id="dairyPMBtn" class="shift-btn">PM</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Total Litres:</label>
+                <input id="dairyLitres" type="number" placeholder="Enter total litres" step="0.01" min="0">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Fat (%):</label>
+                    <input id="dairyFat" type="number" placeholder="Fat %" step="0.01" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>SNF (%):</label>
+                    <input id="dairySnf" type="number" placeholder="SNF %" step="0.01" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Amount (Rs.):</label>
+                <input id="dairyAmount" type="number" placeholder="Total amount" step="0.01" min="0">
+            </div>
+
+            <button id="saveDairyBtn" class="save">Save Dairy Entry</button>
+            <button id="clearDairyBtn" class="clear">Clear</button>
+
+            <p id="dairyStatus"></p>
+        </div>
+
+        <!-- DAIRY ENTRIES -->
+        <h3>Recent Dairy Entries</h3>
+        <div id="dairyEntries"></div>
+    </div>
+
+    <!-- ===== RATES TAB ===== -->
+    <div id="rates" class="tab-content">
+        <h2>Milk Rate Configuration</h2>
+
+        <div id="currentRates"></div>
+
+        <hr>
+
+        <h3>Update Rate</h3>
+
+        <div class="form-group">
+            <label>Person Type:</label>
+            <div class="row">
+                <button id="ratesSupplierBtn" class="person-btn active">Supplier</button>
+                <button id="ratesCustomerBtn" class="person-btn">Customer</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Select Milk Type:</label>
+            <div class="row">
+                <button id="ratesCowBtn" class="milk-btn active">Cow</button>
+                <button id="ratesBuffaloBtn" class="milk-btn">Buffalo</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>New Rate (per litre):</label>
+            <input id="newRateInput" type="number" placeholder="Enter new rate" min="1" step="0.1">
+        </div>
+
+        <button id="updateRateBtn" class="save">Update Rate</button>
+
+        <p id="rateStatus"></p>
+    </div>
+
+    <!-- ===== SUPPLIERS TAB ===== -->
+    <div id="suppliers" class="tab-content">
+        <h2>People & Payments</h2>
+
+        <!-- SUPPLIERS SECTION -->
+        <div class="section">
+            <h3>Suppliers</h3>
+
+            <div class="form-group">
+                <label>Supplier ID:</label>
+                <input id="manageSupplierId" type="number" placeholder="Enter supplier ID" min="1">
+            </div>
+
+            <div class="form-group">
+                <label>Supplier Name:</label>
+                <input id="manageSupplierName" type="text" placeholder="Enter supplier name">
+            </div>
+
+            <button id="addSupplierBtn" class="save">Add Supplier</button>
+
+            <p id="manageSupplierStatus"></p>
+
+            <h4>All Suppliers</h4>
+            <div id="suppliersList"></div>
+        </div>
+
+        <hr>
+
+        <!-- CUSTOMERS SECTION -->
+        <div class="section">
+            <h3>Customers</h3>
+
+            <div class="form-group">
+                <label>Customer ID:</label>
+                <input id="manageCustomerId" type="number" placeholder="Enter customer ID" min="1">
+            </div>
+
+            <div class="form-group">
+                <label>Customer Name:</label>
+                <input id="manageCustomerName" type="text" placeholder="Enter customer name">
+            </div>
+
+            <button id="addCustomerBtn" class="save">Add Customer</button>
+
+            <p id="manageCustomerStatus"></p>
+
+            <h4>All Customers</h4>
+            <div id="customersList"></div>
+        </div>
+
+        <hr>
+
+        <!-- PAYMENTS SECTION -->
+        <div class="section">
+            <h3>Payment Settlement</h3>
+
+            <div class="form-group">
+                <label>Customer ID:</label>
+                <input id="paymentCustomerId" type="number" placeholder="Enter customer ID" min="1">
+            </div>
+
+            <div class="form-group">
+                <label>Payment Amount (Rs.):</label>
+                <input id="paymentAmount" type="number" placeholder="Enter payment amount" min="0.01" step="0.01">
+            </div>
+
+            <button id="makePaymentBtn" class="save">Record Payment</button>
+
+            <p id="paymentStatus"></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- MAIN SCRIPT -->
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+<!-- SERVICE WORKER -->
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('pwa/service-worker.js')
+        .then(() => console.log("Service Worker Registered"));
+}
+</script>
+
+</body>
+</html>

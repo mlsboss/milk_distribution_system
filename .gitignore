@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+*.db
+*.db.backup
+milk_backup_before_reset_*.db
+
+.env
+.env.*
+
+.DS_Store
+Thumbs.db

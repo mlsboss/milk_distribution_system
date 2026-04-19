@@ -1,0 +1,5 @@
+/config.js
+  Cache-Control: no-store
+
+/pwa/service-worker.js
+  Cache-Control: no-store

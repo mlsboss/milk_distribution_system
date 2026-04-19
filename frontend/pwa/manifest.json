@@ -1,0 +1,9 @@
+{
+  "name": "Milk Distribution App",
+  "short_name": "MilkApp",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "orientation": "portrait"
+}
