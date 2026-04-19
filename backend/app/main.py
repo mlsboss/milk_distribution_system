@@ -51,20 +51,10 @@ app = FastAPI(title=settings.PROJECT_NAME)
 #     allow_methods=["*"],
 #     allow_headers=["*"],
 # )
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # temporary fix
-#     allow_credentials=False,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://milk-distribution-system.pages.dev/"
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],  # temporary fix
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
