@@ -16,6 +16,28 @@ async function deleteOfflineEntry(id) {
     console.log("Offline delete:", id);
 }
 
+async function parseErrorResponse(response) {
+    const text = await response.text();
+    if (!text) {
+        return response.statusText || "Request failed";
+    }
+
+    try {
+        const data = JSON.parse(text);
+        return data.detail || data.message || text;
+    } catch {
+        return text;
+    }
+}
+
+function getNetworkErrorMessage(error) {
+    if (error instanceof TypeError) {
+        return "Could not reach the API. Check the backend URL, CORS settings, and whether the Render service is awake.";
+    }
+
+    return error.message || "Network request failed";
+}
+
 function parseCurrencyAmount(value) {
     const matches = String(value).match(/-?\d+(?:\.\d+)?/g);
     return matches ? parseFloat(matches[matches.length - 1]) : 0;
@@ -527,11 +549,11 @@ async function addSupplier(){
 
             await loadSuppliers();
         } else {
-            const error = await res.json();
-            supplierStatus.innerHTML = `<div class="notification error">${error.detail || "Failed to add supplier"}</div>`;
+            const error = await parseErrorResponse(res);
+            supplierStatus.innerHTML = `<div class="notification error">${error || "Failed to add supplier"}</div>`;
         }
-    } catch {
-        supplierStatus.innerHTML = '<div class="notification error">Error adding supplier</div>';
+    } catch (error) {
+        supplierStatus.innerHTML = `<div class="notification error">${getNetworkErrorMessage(error)}</div>`;
     }
 }
 
@@ -623,11 +645,11 @@ async function addCustomer(){
 
             await loadCustomers();
         } else {
-            const error = await res.json();
-            customerStatus.innerHTML = `<div class="notification error">${error.detail || "Failed to add customer"}</div>`;
+            const error = await parseErrorResponse(res);
+            customerStatus.innerHTML = `<div class="notification error">${error || "Failed to add customer"}</div>`;
         }
-    } catch {
-        customerStatus.innerHTML = '<div class="notification error">Error adding customer</div>';
+    } catch (error) {
+        customerStatus.innerHTML = `<div class="notification error">${getNetworkErrorMessage(error)}</div>`;
     }
 }
 
@@ -679,11 +701,11 @@ async function makePayment(){
 
             await loadCustomers(); // Refresh to show updated balances
         } else {
-            const error = await res.json();
-            paymentStatus.innerHTML = `<div class="notification error">${error.detail || "Failed to record payment"}</div>`;
+            const error = await parseErrorResponse(res);
+            paymentStatus.innerHTML = `<div class="notification error">${error || "Failed to record payment"}</div>`;
         }
-    } catch {
-        paymentStatus.innerHTML = '<div class="notification error">Error recording payment</div>';
+    } catch (error) {
+        paymentStatus.innerHTML = `<div class="notification error">${getNetworkErrorMessage(error)}</div>`;
     }
 }
 
